@@ -14,5 +14,12 @@ REG ADD "HKEY_CLASSES_ROOT\addsteam\shell" /f
 REG ADD "HKEY_CLASSES_ROOT\addsteam\shell\open" /f
 REG ADD "HKEY_CLASSES_ROOT\addsteam\shell\open\command" /ve /d "\"C:\\Program Files (x86)\\Steam\\config\\stUI\\AddSteam.exe\" \"%1\"" /f
 
+:: Agregar entradas al registro para AddDLC
+REG ADD "HKEY_CLASSES_ROOT\adddlc" /ve /d "URL:AddDLC Protocol" /f
+REG ADD "HKEY_CLASSES_ROOT\adddlc" /v "URL Protocol" /t REG_SZ /f
+REG ADD "HKEY_CLASSES_ROOT\adddlc\shell" /f
+REG ADD "HKEY_CLASSES_ROOT\adddlc\shell\open" /f
+REG ADD "HKEY_CLASSES_ROOT\adddlc\shell\open\command" /ve /d "\"C:\\Program Files (x86)\\Steam\\config\\stUI\\AddDLC.exe\" \"%1\"" /f
+
 echo Completado.
 pause
