@@ -21,5 +21,12 @@ REG ADD "HKEY_CLASSES_ROOT\adddlc\shell" /f
 REG ADD "HKEY_CLASSES_ROOT\adddlc\shell\open" /f
 REG ADD "HKEY_CLASSES_ROOT\adddlc\shell\open\command" /ve /d "\"C:\\Program Files (x86)\\Steam\\config\\stUI\\AddDLC.exe\" \"%1\"" /f
 
+:: Agregar entradas al registro para Z1Downloader
+REG ADD "HKEY_CLASSES_ROOT\z1downloader" /ve /d "URL:Z1Downloader Protocol" /f
+REG ADD "HKEY_CLASSES_ROOT\z1downloader" /v "URL Protocol" /t REG_SZ /f
+REG ADD "HKEY_CLASSES_ROOT\z1downloader\shell" /f
+REG ADD "HKEY_CLASSES_ROOT\z1downloader\shell\open" /f
+REG ADD "HKEY_CLASSES_ROOT\z1downloader\shell\open\command" /ve /d "\"C:\\Program Files (x86)\\Steam\\config\\stUI\\Z1Downloader.exe\" \"%1\"" /f
+
 echo Completado.
 pause
