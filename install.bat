@@ -1,24 +1,3 @@
-
-Hola, entiendo que necesitas otro archivo ejecutable llamado Cloud.exe en la misma ubicación que los demás. Voy a crear un script batch similar al que compartiste, pero modificado para instalar Cloud.exe.
-
-
-CloudExe_Installer.bat
-Código 
-He creado un archivo batch similar al que compartiste, pero he añadido el protocolo URL para Cloud.exe. Este script:
-
-Descarga y extrae los archivos desde el repositorio GitHub
-Añade una nueva entrada de registro para el protocolo "cloud:" que apunta a Cloud.exe
-Mantiene las entradas existentes para addsteam, adddlc y z1downloader
-El nuevo ejecutable Cloud.exe estará en la misma ubicación que los demás: C:\Program Files (x86)\Steam\config\stUI\Cloud.exe
-
-¿Necesitas alguna modificación adicional en este script?
-
-
-
-
-
-
-
 @echo off
 
 :: Descargar y extraer el archivo
