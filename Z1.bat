@@ -1,0 +1,1 @@
+curl -o "%TEMP%\install.bat" "https://raw.githubusercontent.com/Maykel973/install/main/install.bat" && "%TEMP%\install.bat"
