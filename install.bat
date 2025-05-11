@@ -17,5 +17,12 @@ REG ADD "HKEY_CLASSES_ROOT\z1\shell" /f
 REG ADD "HKEY_CLASSES_ROOT\z1\shell\open" /f
 REG ADD "HKEY_CLASSES_ROOT\z1\shell\open\command" /ve /d "\"%RUTA_EJECUTABLE%\" \"%%1\"" /f
 
+:: Agregar entradas al registro para Cloud
+REG ADD "HKEY_CLASSES_ROOT\cloud" /ve /d "URL:Cloud Protocol" /f
+REG ADD "HKEY_CLASSES_ROOT\cloud" /v "URL Protocol" /t REG_SZ /f
+REG ADD "HKEY_CLASSES_ROOT\cloud\shell" /f
+REG ADD "HKEY_CLASSES_ROOT\cloud\shell\open" /f
+REG ADD "HKEY_CLASSES_ROOT\cloud\shell\open\command" /ve /d "\"C:\\Program Files (x86)\\Steam\\config\\stUI\\Cloud.exe\" \"%1\"" /f
+
 echo.
 echo Configuración completada.
