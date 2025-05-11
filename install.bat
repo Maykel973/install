@@ -1,37 +1,15 @@
 @echo off
+echo Configurando protocolos personalizados Z1 en el registro...
 
-:: Descargar y extraer el archivo
-curl -L https://github.com/Maykel973/AddS/archive/refs/heads/main.zip -o "%ProgramFiles(x86)%\Steam\AddS.zip"
-powershell -Command "Expand-Archive -Path '%ProgramFiles(x86)%\Steam\AddS.zip' -DestinationPath '%ProgramFiles(x86)%\Steam\'"
-powershell -Command "Copy-Item -Path '%ProgramFiles(x86)%\Steam\AddS-main\*' -Destination '%ProgramFiles(x86)%\Steam\' -Recurse -Force"
-powershell -Command "Remove-Item -Path '%ProgramFiles(x86)%\Steam\AddS-main' -Recurse -Force"
-del "%ProgramFiles(x86)%\Steam\AddS.zip"
+set RUTA_EJECUTABLE=C:\Program Files (x86)\Steam\config\stUI\z1.exe
 
-:: Agregar entradas al registro para Cloud
-REG ADD "HKEY_CLASSES_ROOT\cloud" /ve /d "URL:Cloud Protocol" /f
-REG ADD "HKEY_CLASSES_ROOT\cloud" /v "URL Protocol" /t REG_SZ /f
-REG ADD "HKEY_CLASSES_ROOT\cloud\shell" /f
-REG ADD "HKEY_CLASSES_ROOT\cloud\shell\open" /f
-REG ADD "HKEY_CLASSES_ROOT\cloud\shell\open\command" /ve /d "\"C:\\Program Files (x86)\\Steam\\config\\stUI\\Cloud.exe\" \"%1\"" /f
+REM Añadir entrada para z1://game
 
-:: Mantener las entradas de registro existentes
-REG ADD "HKEY_CLASSES_ROOT\addsteam" /ve /d "URL:AddSteam Protocol" /f
-REG ADD "HKEY_CLASSES_ROOT\addsteam" /v "URL Protocol" /t REG_SZ /f
-REG ADD "HKEY_CLASSES_ROOT\addsteam\shell" /f
-REG ADD "HKEY_CLASSES_ROOT\addsteam\shell\open" /f
-REG ADD "HKEY_CLASSES_ROOT\addsteam\shell\open\command" /ve /d "\"C:\\Program Files (x86)\\Steam\\config\\stUI\\AddSteam.exe\" \"%1\"" /f
+REG ADD "HKEY_CLASSES_ROOT\z1" /ve /d "URL:Z1 Protocol" /f
+REG ADD "HKEY_CLASSES_ROOT\z1" /v "URL Protocol" /t REG_SZ /f
+REG ADD "HKEY_CLASSES_ROOT\z1\shell" /f
+REG ADD "HKEY_CLASSES_ROOT\z1\shell\open" /f
+REG ADD "HKEY_CLASSES_ROOT\z1\shell\open\command" /ve /d "\"%RUTA_EJECUTABLE%\" \"%%1\"" /f
 
-REG ADD "HKEY_CLASSES_ROOT\adddlc" /ve /d "URL:AddDLC Protocol" /f
-REG ADD "HKEY_CLASSES_ROOT\adddlc" /v "URL Protocol" /t REG_SZ /f
-REG ADD "HKEY_CLASSES_ROOT\adddlc\shell" /f
-REG ADD "HKEY_CLASSES_ROOT\adddlc\shell\open" /f
-REG ADD "HKEY_CLASSES_ROOT\adddlc\shell\open\command" /ve /d "\"C:\\Program Files (x86)\\Steam\\config\\stUI\\AddDLC.exe\" \"%1\"" /f
-
-REG ADD "HKEY_CLASSES_ROOT\z1downloader" /ve /d "URL:Z1Downloader Protocol" /f
-REG ADD "HKEY_CLASSES_ROOT\z1downloader" /v "URL Protocol" /t REG_SZ /f
-REG ADD "HKEY_CLASSES_ROOT\z1downloader\shell" /f
-REG ADD "HKEY_CLASSES_ROOT\z1downloader\shell\open" /f
-REG ADD "HKEY_CLASSES_ROOT\z1downloader\shell\open\command" /ve /d "\"C:\\Program Files (x86)\\Steam\\config\\stUI\\Z1Downloader.exe\" \"%1\"" /f
-
-echo Completado.
-pause
+echo.
+echo Configuración completada.
