@@ -48,5 +48,15 @@ REG ADD "HKEY_CLASSES_ROOT\z1restart\shell" /f >nul 2>&1
 REG ADD "HKEY_CLASSES_ROOT\z1restart\shell\open" /f >nul 2>&1
 REG ADD "HKEY_CLASSES_ROOT\z1restart\shell\open\command" /ve /d "\"%RUTA_EJECUTABLE%\" \"restart\"" /f >nul 2>&1
 
+:: Protocolo z1add:// (Fix.exe)
+REG ADD "HKEY_CLASSES_ROOT\z1add" /ve /d "URL:Z1 Add Protocol" /f >nul 2>&1
+REG ADD "HKEY_CLASSES_ROOT\z1add" /v "URL Protocol" /t REG_SZ /f >nul 2>&1
+REG ADD "HKEY_CLASSES_ROOT\z1add\shell\open\command" /ve /d "\"%FIX_EXE%\" \"%%1\"" /f >nul 2>&1
+
+:: Protocolo z1fix:// (Fix.exe)
+REG ADD "HKEY_CLASSES_ROOT\z1fix" /ve /d "URL:Z1 Fix Protocol" /f >nul 2>&1
+REG ADD "HKEY_CLASSES_ROOT\z1fix" /v "URL Protocol" /t REG_SZ /f >nul 2>&1
+REG ADD "HKEY_CLASSES_ROOT\z1fix\shell\open\command" /ve /d "\"%FIX_EXE%\" \"%%1\"" /f >nul 2>&1
+
 echo Completado
 pause
