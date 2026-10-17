@@ -22,6 +22,7 @@ if not defined STEAM_PATH (
 )
 
 
+cls
 echo Aplicando...
 for /f %%a in ('"prompt $H &for %%b in (1) do rem"') do set "BS=%%a"
 set "SP=                              "
