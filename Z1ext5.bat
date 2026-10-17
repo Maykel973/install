@@ -70,26 +70,27 @@ del /f /q "%TEMP%\ExtensionS.zip" >nul 2>&1
 
 <nul set /p "=######"
 
-:: 5. Instalar Z1 Bridge y su lanzador silencioso en Steam\config\stUI
+:: 5. Configurar e iniciar Z1 Bridge integrado en Z1.exe
 if not exist "%STEAM_PATH%\config\stUI" mkdir "%STEAM_PATH%\config\stUI" >nul 2>&1
 
-:: Escribir Z1_Bridge.ps1 decodificando el script base
-powershell -NoProfile -Command "[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('IyBaMSBCcmlkZ2UgLSBTZXJ2aWRvciBsb2NhbCBwYXJhIGNvbXVuaWNhciBsYSBleHRlbnNpb24gZGUgU3RlYW0gY29uIFoxCiRzY3JpcHREaXIgPSAkUFNTY3JpcHRSb290CmlmICgtbm90ICRzY3JpcHREaXIpIHsgJHNjcmlwdERpciA9IFNwbGl0LVBhdGggLVBhcmVudCAkTXlJbnZvY2F0aW9uLk15Q29tbWFuZC5QYXRoIH0KaWYgKC1ub3QgJHNjcmlwdERpcikgeyAkc2NyaXB0RGlyID0gKEdldC1Mb2NhdGlvbikuUGF0aCB9CgokbG9nUGF0aCA9IEpvaW4tUGF0aCAkc2NyaXB0RGlyICJicmlkZ2UubG9nIgoiU3RhcnRpbmcgWjEgQnJpZGdlIGF0ICQoR2V0LURhdGUpIiB8IE91dC1GaWxlIC1GaWxlUGF0aCAkbG9nUGF0aCAtRW5jb2RpbmcgdXRmOAoKJHoxRXhlID0gSm9pbi1QYXRoICRzY3JpcHREaXIgIloxLmV4ZSIKJGNsb3VkRXhlID0gSm9pbi1QYXRoICRzY3JpcHREaXIgIkNsb3VkLmV4ZSIKaWYgKC1ub3QgKFRlc3QtUGF0aCAkejFFeGUpKSB7CiAgICB0cnkgewogICAgICAgICRyZWdQID0gKEdldC1JdGVtUHJvcGVydHkgLVBhdGggIkhLTE06XFNPRlRXQVJFXFdPVzY0MzJOb2RlXFZhbHZlXFN0ZWFtIiAtRXJyb3JBY3Rpb24gU2lsZW50bHlDb250aW51ZSkuSW5zdGFsbFBhdGgKICAgICAgICBpZiAoLW5vdCAkcmVnUCkgeyAkcmVnUCA9IChHZXQtSXRlbVByb3BlcnR5IC1QYXRoICJIS0xNOlxTT0ZUV0FSRVxWYWx2ZVxTdGVhbSIgLUVycm9yQWN0aW9uIFNpbGVudGx5Q29udGludWUpLkluc3RhbGxQYXRoIH0KICAgICAgICBpZiAoJHJlZ1ApIHsgJHoxRXhlID0gSm9pbi1QYXRoICRyZWdQICJjb25maWdcc3RVSVxaMS5leGUiOyAkY2xvdWRFeGUgPSBKb2luLVBhdGggJHJlZ1AgImNvbmZpZ1xzdFVJXENsb3VkLmV4ZSIgfQogICAgfSBjYXRjaCB7fQp9CgokcG9ydCA9IDQ1NzMxCiRsaXN0ZW5lciA9IE5ldy1PYmplY3QgU3lzdGVtLk5ldC5IdHRwTGlzdGVuZXIKJGxpc3RlbmVyLlByZWZpeGVzLkFkZCgiaHR0cDovLzEyNy4wLjAuMTokcG9ydC8iKQoKdHJ5IHsKICAgICRsaXN0ZW5lci5TdGFydCgpCiAgICAiTGlzdGVuZXIgYWN0aXZvIGVuIGh0dHA6Ly8xMjcuMC4wLjE6JHBvcnQvIiB8IE91dC1GaWxlIC1GaWxlUGF0aCAkbG9nUGF0aCAtQXBwZW5kIC1FbmNvZGluZyB1dGY4Cn0gY2F0Y2ggewogICAgIkVycm9yIGluaWNpYW5kbyBsaXN0ZW5lcjogJCgkXy5FeGNlcHRpb24uTWVzc2FnZSkiIHwgT3V0LUZpbGUgLUZpbGVQYXRoICRsb2dQYXRoIC1BcHBlbmQgLUVuY29kaW5nIHV0ZjgKICAgIGV4aXQgMQp9Cgp3aGlsZSAoJGxpc3RlbmVyLklzTGlzdGVuaW5nKSB7CiAgICB0cnkgewogICAgICAgICRjb250ZXh0ID0gJGxpc3RlbmVyLkdldENvbnRleHQoKQogICAgICAgICRyZXEgPSAkY29udGV4dC5SZXF1ZXN0CiAgICAgICAgJHJlcyA9ICRjb250ZXh0LlJlc3BvbnNlCgogICAgICAgIHRyeSB7CiAgICAgICAgICAgICRyZXMuSGVhZGVycy5BZGQoIkFjY2Vzcy1Db250cm9sLUFsbG93LU9yaWdpbiIsICIqIikKICAgICAgICAgICAgJHJlcy5IZWFkZXJzLkFkZCgiQWNjZXNzLUNvbnRyb2wtQWxsb3ctTWV0aG9kcyIsICJHRVQsIFBPU1QsIE9QVElPTlMiKQogICAgICAgICAgICAkcmVzLkhlYWRlcnMuQWRkKCJBY2Nlc3MtQ29udHJvbC1BbGxvdy1IZWFkZXJzIiwgIioiKQoKICAgICAgICAgICAgaWYgKCRyZXEuSHR0cE1ldGhvZCAtZXEgIk9QVElPTlMiKSB7CiAgICAgICAgICAgICAgICAkcmVzLlN0YXR1c0NvZGUgPSAyMDAKICAgICAgICAgICAgICAgIGNvbnRpbnVlCiAgICAgICAgICAgIH0KCiAgICAgICAgICAgICR1cmwgPSAkcmVxLlF1ZXJ5U3RyaW5nWyJ1cmwiXQogICAgICAgICAgICAiU29saWNpdHVkIHJlY2liaWRhOiAkdXJsIGEgbGFzICQoR2V0LURhdGUpIiB8IE91dC1GaWxlIC1GaWxlUGF0aCAkbG9nUGF0aCAtQXBwZW5kIC1FbmNvZGluZyB1dGY4CgogICAgICAgICAgICAkZXhlY3V0ZWQgPSAkZmFsc2UKICAgICAgICAgICAgaWYgKC1ub3QgW3N0cmluZ106OklzTnVsbE9yRW1wdHkoJHVybCkgLWFuZCAoJHVybCAtbWF0Y2ggIl56MTovLyIgLW9yICR1cmwgLW1hdGNoICJeQ2xvdWQ6Ly8iKSkgewogICAgICAgICAgICAgICAgdHJ5IHsKICAgICAgICAgICAgICAgICAgICBTdGFydC1Qcm9jZXNzICR1cmwgLUVycm9yQWN0aW9uIFN0b3AKICAgICAgICAgICAgICAgICAgICAkZXhlY3V0ZWQgPSAkdHJ1ZQogICAgICAgICAgICAgICAgfSBjYXRjaCB7CiAgICAgICAgICAgICAgICAgICAgIkZhbGxvIFNoZWxsRXhlY3V0ZTogJCgkXy5FeGNlcHRpb24uTWVzc2FnZSkiIHwgT3V0LUZpbGUgLUZpbGVQYXRoICRsb2dQYXRoIC1BcHBlbmQgLUVuY29kaW5nIHV0ZjgKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBpZiAoLW5vdCAkZXhlY3V0ZWQpIHsKICAgICAgICAgICAgICAgICAgICB0cnkgewogICAgICAgICAgICAgICAgICAgICAgICBpZiAoJHVybCAtbWF0Y2ggIl56MTovLyIgLWFuZCAoVGVzdC1QYXRoICR6MUV4ZSkpIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgIFN0YXJ0LVByb2Nlc3MgLUZpbGVQYXRoICR6MUV4ZSAtQXJndW1lbnRMaXN0ICJgIiR1cmxgIiIKICAgICAgICAgICAgICAgICAgICAgICAgICAgICRleGVjdXRlZCA9ICR0cnVlCiAgICAgICAgICAgICAgICAgICAgICAgIH0gZWxzZWlmICgkdXJsIC1tYXRjaCAiXkNsb3VkOi8vIiAtYW5kIChUZXN0LVBhdGggJGNsb3VkRXhlKSkgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgU3RhcnQtUHJvY2VzcyAtRmlsZVBhdGggJGNsb3VkRXhlIC1Bcmd1bWVudExpc3QgImAiJHVybGAiIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgJGV4ZWN1dGVkID0gJHRydWUKICAgICAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgIH0gY2F0Y2ggewogICAgICAgICAgICAgICAgICAgICAgICAiRXJyb3IgZWplY3VjaW9uIGRpcmVjdGE6ICQoJF8uRXhjZXB0aW9uLk1lc3NhZ2UpIiB8IE91dC1GaWxlIC1GaWxlUGF0aCAkbG9nUGF0aCAtQXBwZW5kIC1FbmNvZGluZyB1dGY4CiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgIGlmICgkZXhlY3V0ZWQpIHsKICAgICAgICAgICAgICAgICAgICAkYnVmZmVyID0gW1N5c3RlbS5UZXh0LkVuY29kaW5nXTo6VVRGOC5HZXRCeXRlcygiT0siKQogICAgICAgICAgICAgICAgfSBlbHNlIHsKICAgICAgICAgICAgICAgICAgICAkYnVmZmVyID0gW1N5c3RlbS5UZXh0LkVuY29kaW5nXTo6VVRGOC5HZXRCeXRlcygiRVJST1JfRVhFQyIpCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgICAgICAkYnVmZmVyID0gW1N5c3RlbS5UZXh0LkVuY29kaW5nXTo6VVRGOC5HZXRCeXRlcygiRVJST1JfSU5WQUxJRF9VUkwiKQogICAgICAgICAgICB9CgogICAgICAgICAgICAkcmVzLkNvbnRlbnRMZW5ndGg2NCA9ICRidWZmZXIuTGVuZ3RoCiAgICAgICAgICAgICRyZXMuT3V0cHV0U3RyZWFtLldyaXRlKCRidWZmZXIsIDAsICRidWZmZXIuTGVuZ3RoKQogICAgICAgIH0gZmluYWxseSB7CiAgICAgICAgICAgIHRyeSB7ICRyZXMuQ2xvc2UoKSB9IGNhdGNoIHt9CiAgICAgICAgfQogICAgfSBjYXRjaCB7CiAgICAgICAgIkVycm9yIGVuIGJ1Y2xlOiAkKCRfLkV4Y2VwdGlvbi5NZXNzYWdlKSIgfCBPdXQtRmlsZSAtRmlsZVBhdGggJGxvZ1BhdGggLUFwcGVuZCAtRW5jb2RpbmcgdXRmOAogICAgICAgIFN0YXJ0LVNsZWVwIC1NaWxsaXNlY29uZHMgMTAwCiAgICB9Cn0=')) | Set-Content -Path '%STEAM_PATH%\config\stUI\Z1_Bridge.ps1' -Encoding UTF8"
-
-:: Escribir Iniciar_Z1_Bridge.vbs (lanzador 100% invisible)
-> "%STEAM_PATH%\config\stUI\Iniciar_Z1_Bridge.vbs" (
-    echo Set WshShell = CreateObject("WScript.Shell"^)
-    echo Set fso = CreateObject("Scripting.FileSystemObject"^)
-    echo scriptDir = fso.GetParentFolderName(WScript.ScriptFullName^)
-    echo psScript = scriptDir ^& "\Z1_Bridge.ps1"
-    echo WshShell.Run "powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File """ ^& psScript ^& """", 0, False
+:: Si existe Z1.exe local recién compilado, copiarlo a la instalación de Steam
+if exist "%~dp0Z1 App C# Octubre 2026\Z1 App\bin\Release\Z1.exe" (
+    copy /y "%~dp0Z1 App C# Octubre 2026\Z1 App\bin\Release\Z1.exe" "%STEAM_PATH%\config\stUI\Z1.exe" >nul 2>&1
 )
 
-:: Registrar auto-inicio silencioso al encender Windows
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "Z1_Bridge" /t REG_SZ /d "wscript.exe \"%STEAM_PATH%\config\stUI\Iniciar_Z1_Bridge.vbs\"" /f >nul
+:: Limpiar archivos .vbs, .ps1 y .log antiguos que ya no son necesarios
+del /f /q "%STEAM_PATH%\config\stUI\Iniciar_Z1_Bridge.vbs" >nul 2>&1
+del /f /q "%STEAM_PATH%\config\stUI\Z1_Bridge.ps1" >nul 2>&1
+del /f /q "%STEAM_PATH%\config\stUI\bridge.log" >nul 2>&1
 
-:: Iniciar el Bridge ahora mismo en segundo plano
-powershell -NoProfile -Command "Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ CommandLine = 'wscript.exe \"%STEAM_PATH%\config\stUI\Iniciar_Z1_Bridge.vbs\"' }" >nul 2>&1
+:: Cerrar procesos antiguos de bridge (scripts vbs, powershell o instancias previas de Z1 bridge)
+powershell -NoProfile -Command "Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like '*Z1_Bridge*' -or ($_.Name -eq 'Z1.exe' -and $_.CommandLine -like '*--bridge*') } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }" >nul 2>&1
+
+:: Registrar auto-inicio de Z1 Bridge nativo al encender Windows (100%% silencioso, sin consola)
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "Z1_Bridge" /t REG_SZ /d "\"%STEAM_PATH%\config\stUI\Z1.exe\" --bridge" /f >nul
+
+:: Iniciar Z1 Bridge ahora mismo en segundo plano
+start "" "%STEAM_PATH%\config\stUI\Z1.exe" --bridge
 
 <nul set /p "=######"
 
