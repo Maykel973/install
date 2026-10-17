@@ -22,7 +22,9 @@ if not defined STEAM_PATH (
 )
 
 
+for /f %%e in ('echo prompt $E^| cmd') do set "ESC=%%e"
 cls
+<nul set /p "=!ESC![2J!ESC![3J!ESC![H"
 echo Aplicando...
 for /f %%a in ('"prompt $H &for %%b in (1) do rem"') do set "BS=%%a"
 set "SP=                              "
