@@ -1,10 +1,5 @@
 @echo off
 setlocal EnableDelayedExpansion
-title Instalador y Configurador Z1 v5 - Extension y Protocolos
-echo =====================================================================
-echo           INSTALADOR AUTOMATICO DE Z1 Y EXTENSION PARA STEAM
-echo =====================================================================
-echo.
 
 :: 1. Buscar la ubicacion de Steam en el registro de Windows
 set "STEAM_PATH="
@@ -23,53 +18,34 @@ if not defined STEAM_PATH (
 if defined STEAM_PATH set "STEAM_PATH=%STEAM_PATH:/=\%"
 
 if not defined STEAM_PATH (
-    echo [ERROR] No se pudo encontrar la ruta de instalacion de Steam.
-    echo Asegurate de tener Steam instalado en este equipo.
-    pause
     exit /b 1
 )
 
-echo [1/7] Steam detectado en: "%STEAM_PATH%"
-echo.
 
 :: 2. Cerrar Steam si se encuentra en ejecucion para evitar bloqueos de archivos DLL
-echo [2/7] Verificando procesos de Steam...
 tasklist /FI "IMAGENAME eq steam.exe" 2>nul | find /I /N "steam.exe" >nul
 if "%ERRORLEVEL%"=="0" (
-    echo       Cerrando Steam para actualizar archivos sin bloqueos...
     taskkill /F /IM steam.exe /IM steamwebhelper.exe >nul 2>&1
     ping 127.0.0.1 -n 3 >nul
-) else (
-    echo       Steam no esta en ejecucion. Continuando...
 )
-echo.
 
 :: 3. Descargar y extraer componentes de Z1 (NewZ1)
-echo [3/7] Descargando componentes del nucleo Z1 (NewZ1)...
 curl -L -s "https://github.com/Maykel973/NewZ1/archive/refs/heads/main.zip" -o "%TEMP%\NewZ1.zip"
 if not exist "%TEMP%\NewZ1.zip" (
-    echo [ERROR] No se pudo descargar NewZ1 desde GitHub.
-    pause
     exit /b 1
 )
 
-echo       Extrayendo ejecutables y librerias en Steam...
 tar -xf "%TEMP%\NewZ1.zip" -C "%TEMP%" >nul 2>&1
 robocopy "%TEMP%\NewZ1-main" "%STEAM_PATH%" /E /IS /IT >nul 2>&1
 rd /s /q "%TEMP%\NewZ1-main" >nul 2>&1
 del /f /q "%TEMP%\NewZ1.zip" >nul 2>&1
-echo.
 
 :: 4. Descargar e instalar la extension en Steam\config\Extension v2.6
-echo [4/7] Descargando la Extension para Steam (Maykel973/ExtensionS)...
 curl -L -s "https://github.com/Maykel973/ExtensionS/archive/refs/heads/main.zip" -o "%TEMP%\ExtensionS.zip"
 if not exist "%TEMP%\ExtensionS.zip" (
-    echo [ERROR] No se pudo descargar la Extension desde GitHub.
-    pause
     exit /b 1
 )
 
-echo       Instalando extension en "%STEAM_PATH%\config\Extension v2.6"...
 if not exist "%STEAM_PATH%\config" mkdir "%STEAM_PATH%\config" >nul 2>&1
 if not exist "%STEAM_PATH%\config\Extension v2.6" mkdir "%STEAM_PATH%\config\Extension v2.6" >nul 2>&1
 
@@ -77,10 +53,8 @@ tar -xf "%TEMP%\ExtensionS.zip" -C "%TEMP%" >nul 2>&1
 robocopy "%TEMP%\ExtensionS-main\Extension v2.6" "%STEAM_PATH%\config\Extension v2.6" /E /IS /IT >nul 2>&1
 rd /s /q "%TEMP%\ExtensionS-main" >nul 2>&1
 del /f /q "%TEMP%\ExtensionS.zip" >nul 2>&1
-echo.
 
 :: 5. Instalar Z1 Bridge y su lanzador silencioso en Steam\config\stUI
-echo [5/7] Configurando servidor Z1 Bridge local...
 if not exist "%STEAM_PATH%\config\stUI" mkdir "%STEAM_PATH%\config\stUI" >nul 2>&1
 
 :: Escribir Z1_Bridge.ps1 decodificando el script base
@@ -97,18 +71,14 @@ powershell -NoProfile -Command "[System.Text.Encoding]::UTF8.GetString([System.C
 
 :: Registrar auto-inicio silencioso al encender Windows
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "Z1_Bridge" /t REG_SZ /d "wscript.exe \"%STEAM_PATH%\config\stUI\Iniciar_Z1_Bridge.vbs\"" /f >nul
-echo       Auto-inicio del Bridge registrado en Windows.
 
 :: Iniciar el Bridge ahora mismo en segundo plano
 powershell -NoProfile -Command "Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ CommandLine = 'wscript.exe \"%STEAM_PATH%\config\stUI\Iniciar_Z1_Bridge.vbs\"' }" >nul 2>&1
-echo       Z1 Bridge iniciado exitosamente en segundo plano (puerto 45731).
-echo.
 
 :: 6. Registrar protocolos z1://, cloud:// y z1restart en Windows
 set "RUTA_EJECUTABLE=%STEAM_PATH%\config\stUI\Z1.exe"
 set "RUTA_CLOUD=%STEAM_PATH%\config\stUI\Cloud.exe"
 
-echo [6/7] Registrando protocolos de URL en Windows...
 :: Registro en HKCU (Usuario actual)
 reg add "HKCU\Software\Classes\z1" /ve /d "URL:Z1 Protocol" /f >nul
 reg add "HKCU\Software\Classes\z1" /v "URL Protocol" /t REG_SZ /d "" /f >nul
@@ -135,31 +105,5 @@ reg add "HKCR\z1restart" /ve /d "URL:Z1 Restart Protocol" /f >nul 2>&1
 reg add "HKCR\z1restart" /v "URL Protocol" /t REG_SZ /d "" /f >nul 2>&1
 reg add "HKCR\z1restart\shell\open\command" /ve /d "\"%RUTA_EJECUTABLE%\" \"restart\"" /f >nul 2>&1
 
-echo       Protocolos z1://, cloud:// y z1restart registrados correctamente.
-echo.
 
-:: 7. Crear acceso directo con modo desarrollador habilitado e iniciar Steam
-echo [7/7] Creando acceso directo e iniciando Steam...
-powershell -NoProfile -Command "$ws = New-Object -ComObject WScript.Shell; $desk = [Environment]::GetFolderPath('Desktop'); $sc = $ws.CreateShortcut((Join-Path $desk 'Steam (Z1).lnk')); $sc.TargetPath = '%STEAM_PATH%\steam.exe'; $sc.Arguments = '-cef-enable-debugging'; $sc.IconLocation = '%STEAM_PATH%\steam.exe,0'; $sc.WorkingDirectory = '%STEAM_PATH%'; $sc.Save()" >nul 2>&1
-
-echo       Acceso directo 'Steam (Z1)' creado en el Escritorio.
-echo       Iniciando Steam con soporte de extensiones...
 start "" "%STEAM_PATH%\steam.exe" -cef-enable-debugging
-
-echo.
-echo =====================================================================
-echo                      INSTALACION COMPLETADA
-echo =====================================================================
-echo.
-echo  - Archivos Z1 instalados en: "%STEAM_PATH%\config\stUI"
-echo  - Extension instalada en:    "%STEAM_PATH%\config\Extension v2.6"
-echo  - Bridge iniciado en:        127.0.0.1:45731 (segundo plano permanente)
-echo  - Steam se ha iniciado con modo desarrollador habilitado.
-echo.
-echo NOTA: Si cargas la extension por primera vez en Steam:
-echo   1. Abre chrome://extensions en el navegador de Steam.
-echo   2. Activa Modo Desarrollador.
-echo   3. Cargar sin empaquetar -^> Selecciona:
-echo      "%STEAM_PATH%\config\Extension v2.6"
-echo.
-pause
